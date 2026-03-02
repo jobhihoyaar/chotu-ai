@@ -1,7 +1,7 @@
 import TelegramBot from "node-telegram-bot-api";
 import "dotenv/config";
 import { chotu } from "../core/chotu-ai.js";
-import axios from "axios";
+import { checkAccess } from "@/utils/index.js";
 
 export class TelegramService {
   private bot: TelegramBot;
@@ -28,9 +28,8 @@ export class TelegramService {
 
     // Handle Text Messages
     this.bot.on("text", async (msg) => {
-      // Ignore commands (messages starting with /) so they don't double-trigger
-      if (msg.text?.startsWith("/")) return;
-
+      const hasAccess = await checkAccess(this.bot, msg)
+      if (msg.text?.startsWith("/") || !hasAccess) return;
       const chatId = msg.chat.id;
       const text = msg.text || "";
 
