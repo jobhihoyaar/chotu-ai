@@ -36,7 +36,7 @@ export class TelegramService {
       try {
         await this.bot.sendChatAction(chatId, "typing");
 
-        const aiResponse = await chotu.generateResponse(text);
+        const aiResponse = await chotu.handleIncomingMessage(chatId.toString(), text);
 
         if (aiResponse && aiResponse.trim().length > 0) {
           await this.bot.sendMessage(chatId, aiResponse);

@@ -2,6 +2,7 @@ import { allTools, toolDeclarations } from "@/tools/index.js";
 import type { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 import OpenAI, { toFile } from "openai";
 import "dotenv/config";
+import { conversationManager } from "@/services/ConversationManager.js";
 
 export class OpenRouterService {
   private client: OpenAI;
@@ -22,13 +23,32 @@ export class OpenRouterService {
       baseURL: "https://ollama.com/v1",
       apiKey: apiKey,
       defaultHeaders: {
-        "HTTP-Referer": "http://localhost:3000", // Optional: Your site URL
-        "X-Title": "Chotu AI", // Optional: Your site name
+        "HTTP-Referer": "http://localhost:3000",
+        "X-Title": "Chotu AI",
       },
     });
   }
 
-  async generateResponse(prompt: string, history: any[] = []): Promise<string> {
+  async handleIncomingMessage(chatId: string, userMessage: string){
+
+    const history = conversationManager.getHistory(chatId)
+
+    conversationManager.addMessage(chatId, {
+      role: "user",
+      content: userMessage
+    })
+
+    const response = await this.generateResponse(userMessage, history)
+
+    conversationManager.addMessage(chatId, {
+      role: "assistant",
+      content: userMessage
+    })
+
+    return response
+  }
+
+  async generateResponse(prompt: string, history: ChatCompletionMessageParam[] = []): Promise<string> {
     console.log(`[OpenRouter] Received Prompt: "${prompt}"`);
 
     try {
@@ -99,7 +119,7 @@ export class OpenRouterService {
     }
   }
 
-  async generateAudioResponse(audioBuffer: Buffer, history: any[] = []) {
+  async generateAudioResponse(audioBuffer: Buffer, history: ChatCompletionMessageParam[] = []) {
   try {
     // 1. Transcribe the audio first (Example using OpenAI/OpenRouter Whisper)
     // Telegram audio is OGG, so we send it as a file
