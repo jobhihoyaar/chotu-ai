@@ -1,7 +1,7 @@
 import type { ChatCompletionMessageParam } from "openai/resources";
 
 
-class ConversationManager {
+export class ConversationManager {
     private conversations: Map<string, ChatCompletionMessageParam[]> = new Map()
     private maxHistory = 20
 
@@ -28,5 +28,3 @@ class ConversationManager {
         this.conversations.delete(chatId)
     }
 }
-
-export const conversationManager = new ConversationManager()

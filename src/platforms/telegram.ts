@@ -1,6 +1,6 @@
 import TelegramBot from "node-telegram-bot-api";
 import "dotenv/config";
-import { chotu } from "../core/chotu-ai.js";
+import { chotu } from "@/core/index.js";
 import { checkAccess } from "@/utils/index.js";
 
 export class TelegramService {
@@ -28,6 +28,12 @@ export class TelegramService {
 
     // Handle Text Messages
     this.bot.on("text", async (msg) => {
+      const rawText = msg.text || "";
+      const preview = rawText.length > 120 ? `${rawText.slice(0, 120)}...` : rawText;
+      console.log(
+        `[Telegram] Received message chatId=${msg.chat.id} userId=${msg.from?.id ?? "unknown"} text="${preview}"`,
+      );
+
       const hasAccess = await checkAccess(this.bot, msg)
       if (msg.text?.startsWith("/") || !hasAccess) return;
       const chatId = msg.chat.id;
@@ -36,7 +42,7 @@ export class TelegramService {
       try {
         await this.bot.sendChatAction(chatId, "typing");
 
-        const aiResponse = await chotu.handleIncomingMessage(chatId.toString(), text);
+        const aiResponse = await chotu.handleMessage(chatId.toString(), text);
 
         if (aiResponse && aiResponse.trim().length > 0) {
           await this.bot.sendMessage(chatId, aiResponse);
@@ -47,37 +53,6 @@ export class TelegramService {
         }
       } catch (error) {
         console.error("Text Processing Error:", error);
-      }
-    });
-
-    this.bot.on("voice", async (msg) => {
-      const chatId = msg.chat.id;
-      const fileId = msg.voice?.file_id;
-
-      if (!fileId) return;
-
-      try {
-        await this.bot.sendChatAction(chatId, "typing");
-
-        const fileStream = this.bot.getFileStream(fileId);
-
-        const chunks: Buffer[] = [];
-        for await (const chunk of fileStream) {
-          chunks.push(Buffer.from(chunk));
-        }
-        const audioBuffer = Buffer.concat(chunks);
-
-        // Pass the Buffer directly
-        const aiResponse = await chotu.generateAudioResponse(audioBuffer);
-        if (aiResponse) {
-          await this.bot.sendMessage(chatId, aiResponse);
-        }
-      } catch (error) {
-        console.error("[Telegram] Audio Processing Error:", error);
-        await this.bot.sendMessage(
-          chatId,
-          "Bhai, ye voice note sunne mein thoda problem ho raha hai.",
-        );
       }
     });
   }

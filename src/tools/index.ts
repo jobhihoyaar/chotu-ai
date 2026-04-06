@@ -1,5 +1,5 @@
 import type { ChatCompletionFunctionTool } from "openai/resources/chat/completions";
-import { robotTool } from "./robot.js";
+import { robotTool } from "./robot.tool.js";
 
 export interface ChotuTool {
   tool: ChatCompletionFunctionTool; 
