@@ -40,13 +40,10 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-    "ignoreDeprecations": "5.0",
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@core/*": ["src/core/*"],
-      "@modules/*": ["src/modules/*"],
-      "@platforms/*": ["src/platforms/*"]
+      "@/*": ["src/*"]
     }
   }
 }
