@@ -1,2 +1,2 @@
-export { TelegramService, telegramService } from "./telegram.js";
-export { WhatsAppService, whatsAppService } from "./whatsapp.js";
+export { telegramService } from "@/platforms/telegram.js";
+export { whatsAppService } from "@/platforms/whatsapp.js";

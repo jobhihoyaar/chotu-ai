@@ -1,6 +1,5 @@
 import type { ChatCompletionFunctionTool } from "openai/resources/chat/completions";
-import { getWhatsAppChatsTool } from "./whatsapp-get-chats.tool.js";
-import { sendWhatsAppMessageTool } from "./whatsapp-send-message.tool.js";
+import { getWhatsAppChatsTool, sendWhatsAppMessageTool } from "@/tools/whatsapp.js";
 
 export interface ChotuTool {
   tool: ChatCompletionFunctionTool; 

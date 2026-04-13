@@ -1,6 +1,6 @@
 import { allTools } from "@/tools/index.js";
-import type { ConversationManager } from "./conversation.service.js";
-import type { LLMService } from "./llm.service.js";
+import type { ConversationManager } from "@/ai/conversation.service.js";
+import type { LLMService } from "@/ai/llm.service.js";
 import type { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 
 export class AgentService {

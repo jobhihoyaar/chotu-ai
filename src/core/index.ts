@@ -1,1 +1,1 @@
-export { ChotuAI, chotu } from "./chotu-ai.js";
+export { ChotuAI, chotu } from "@/core/chotu-ai.js";

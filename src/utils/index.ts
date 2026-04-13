@@ -1,8 +1,6 @@
 import { ALLOWED_USERS, BLOCKED_MESSAGE } from "@/constants/index.js";
 import TelegramBot, { type Message } from "node-telegram-bot-api";
 
-
-
 export async function checkAccess(
   bot: TelegramBot,
   msg: Message,
@@ -15,7 +13,7 @@ export async function checkAccess(
       return false;
     }
 
-    return true; // ✅ Important
+    return true;
   } catch (error) {
     console.error("Access check error:", error);
     return false;
