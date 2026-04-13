@@ -1,5 +1,4 @@
 import type { ChotuTool } from "@/tools/index.js";
-import { getChats, sendMessageToWhatsapp } from "@/modules/whatsapp.js";
 import { getSendWhatsAppMessagePayload } from "@/utils/whatsapp.js";
 
 export const getWhatsAppChatsTool: ChotuTool = {
@@ -16,8 +15,7 @@ export const getWhatsAppChatsTool: ChotuTool = {
 		},
 	},
 	execute: async () => {
-		const chats = await getChats();
-		return { chats };
+		throw new Error("WhatsApp integration is disabled for now. Rebuild WhatsApp module to enable this tool.");
 	},
 };
 
@@ -44,8 +42,7 @@ export const sendWhatsAppMessageTool: ChotuTool = {
 		},
 	},
 	execute: async (args) => {
-		const { target, text } = getSendWhatsAppMessagePayload(args ?? {});
-		const result = await sendMessageToWhatsapp(target, text);
-		return { success: true, result };
+		getSendWhatsAppMessagePayload(args ?? {});
+		throw new Error("WhatsApp integration is disabled for now. Rebuild WhatsApp module to enable this tool.");
 	},
 };

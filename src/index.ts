@@ -1,12 +1,9 @@
-import { telegramService } from "@/platforms/index.js";
-import { whatsAppService } from "@/platforms/index.js";
-// import { setDefaultResultOrder } from "node:dns";
-// setDefaultResultOrder("ipv4first");
+import { webhookService, telegramService } from "@/platforms/index.js";
 
 async function bootstrap() {
   try {
+    webhookService.start();
     telegramService.start();
-    whatsAppService.start();
     
     console.log("🚀 Chotu AI System is fully operational.");
   } catch (error) {
