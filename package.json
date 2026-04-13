@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "start": "tsx src/index.ts",
+    "start": "nodemon --exec tsx src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -27,11 +27,14 @@
     "node-telegram-bot-api": "^0.67.0",
     "ollama": "^0.6.3",
     "openai": "^6.25.0",
-    "robotjs": "^0.6.0"
+    "robotjs": "^0.6.0",
+    "ws": "^8.16.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.19",
     "@types/node-telegram-bot-api": "^0.64.14",
+    "@types/ws": "^8.5.10",
+    "nodemon": "^3.0.2",
     "tsx": "^4.7.1",
     "typescript": "^6.0.0"
   }
